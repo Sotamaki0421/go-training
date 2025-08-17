@@ -42,6 +42,8 @@ func TestRuneLiteral(t *testing.T) {
 	}
 }
 
+// https://floating-point-gui.de/basic/
+
 func TestFloatOperation(t *testing.T) {
 	tests := []struct {
 		name string
