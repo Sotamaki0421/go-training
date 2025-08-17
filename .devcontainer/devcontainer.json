@@ -1,0 +1,42 @@
+{
+  "name": "go-training",
+  "dockerComposeFile": "../compose.yaml",
+  "service": "go-training",
+  "workspaceFolder": "/go-training",
+  "postCreateCommand": "/bin/bash /go-training/.devcontainer/setup.sh",
+  // "mounts": [
+  //   "source=${localWorkspaceFolder}/.git,target=/go-training/.git,type=bind"
+  // ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "streetsidesoftware.code-spell-checker",
+        "ionutvmi.path-autocomplete",
+        "oderwat.indent-rainbow",
+        "redhat.vscode-yaml",
+        "netcorext.uuid-generator",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.makefile-tools",
+        "humao.rest-client",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "mechatroner.rainbow-csv",
+        "MS-CEINTL.vscode-language-pack-ja",
+        "jgclark.vscode-todo-highlight",
+        "alefragnani.Bookmarks",
+        "wmaurer.change-case",
+        "typespec.typespec-vscode",
+        "42Crunch.vscode-openapi",
+        "golang.go"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "git.enabled": true,
+        "git.path": null,
+        "git.autoRepositoryDetection": true,
+        "git.scanRepositories": ["/ly-dbaas-assignments"]
+      }
+    }
+  },
+  "remoteUser": "root"
+}
