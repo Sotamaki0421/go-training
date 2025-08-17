@@ -68,3 +68,51 @@ func TestAddElementToSlice(t *testing.T) {
 		})
 	}
 }
+
+func TestMakeSlice(t *testing.T) {
+	type args struct {
+		length   int
+		capacity int
+	}
+	tests := []struct {
+		name string
+		args args
+		want []int
+		appendFlag bool
+	}{
+		{
+			name: "lengthを決めるとその分0埋めで返ってくる",
+			args: args{
+				length:   5,
+				capacity: 5,
+			},
+			want: []int{0, 0, 0, 0, 0},
+		},
+		{
+			name: "lengthをゼロにすると空で返ってくる",
+			args: args{
+				length:   0,
+				capacity: 5,
+			},
+			want: []int{},
+		},
+		{
+			name: "capacity以上に要素を詰める",
+			args: args{
+				length:   5,
+				capacity: 5,
+			},
+			want: []int{0, 0, 0, 0, 0, 0},
+			appendFlag: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := MakeSlice(tt.args.length, tt.args.capacity)
+			if tt.appendFlag {
+				got = append(got, 0)	
+			}
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}

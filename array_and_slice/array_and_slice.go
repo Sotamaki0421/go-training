@@ -12,3 +12,6 @@ func AddElementToSlice(input int, slice []int) []int {
 	return append(slice, input)
 }
 
+func MakeSlice(length int, capacity int) []int {
+	return make([]int, length, capacity)
+}
