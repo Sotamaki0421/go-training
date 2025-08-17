@@ -75,9 +75,9 @@ func TestMakeSlice(t *testing.T) {
 		capacity int
 	}
 	tests := []struct {
-		name string
-		args args
-		want []int
+		name       string
+		args       args
+		want       []int
 		appendFlag bool
 	}{
 		{
@@ -102,7 +102,7 @@ func TestMakeSlice(t *testing.T) {
 				length:   5,
 				capacity: 5,
 			},
-			want: []int{0, 0, 0, 0, 0, 0},
+			want:       []int{0, 0, 0, 0, 0, 0},
 			appendFlag: true,
 		},
 	}
@@ -110,8 +110,70 @@ func TestMakeSlice(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := MakeSlice(tt.args.length, tt.args.capacity)
 			if tt.appendFlag {
-				got = append(got, 0)	
+				got = append(got, 0)
 			}
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestOverrideSlice(t *testing.T) {
+	type args struct {
+		input       []string
+		targetIndex int
+		word        string
+		operation   func(target []string, index int, word string) []string
+	}
+	tests := []struct {
+		name string
+		args args
+		want []string
+	}{
+		{
+			name: "sliceを別の変数に代入して編集してもメモリで共有しているので編集したら書き換わってしまう",
+			args: args{
+				input: []string{
+					"x",
+					"y",
+				},
+				targetIndex: 0,
+				word:        "A",
+				operation: func(target []string, index int, word string) []string {
+					copy := target
+					copy[index] = word
+					return target
+				},
+			},
+			want: []string{
+				"A",
+				"y",
+			},
+		},
+		{
+			name: "copyを使えば元のsliceが書き換わることはない",
+			args: args{
+				input: []string{
+					"x",
+					"y",
+				},
+				targetIndex: 0,
+				word:        "A",
+				operation: func(target []string, index int, word string) []string {
+					copySlice := make([]string, 4)
+					copy(copySlice, target)
+					copySlice[index] = word
+					return target
+				},
+			},
+			want: []string{
+				"x",
+				"y",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := OverrideSlice(tt.args.input, tt.args.targetIndex, tt.args.word, tt.args.operation)
 			assert.Equal(t, tt.want, got)
 		})
 	}
